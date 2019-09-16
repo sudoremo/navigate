@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 left|right|top|bottom|previous"
+  echo ""
+  echo "e.g.: $0 left"
+  exit 99
+fi
+
+DIRECTION=$1
+
+if [ "$DIRECTION" == "left" ]; then
+  HS_DIRECTION="West"
+  TMUX_DIRECTION="L"
+elif [ "$DIRECTION" == "right" ]; then
+  HS_DIRECTION="East"
+  TMUX_DIRECTION="R"
+elif [ "$DIRECTION" == "top" ]; then
+  HS_DIRECTION="North"
+  TMUX_DIRECTION="U"
+elif [ "$DIRECTION" == "bottom" ]; then
+  HS_DIRECTION="South"
+  TMUX_DIRECTION="D"
+elif [ "$DIRECTION" == "previous" ]; then
+  TMUX_DIRECTION="l"
+else
+  echo "Direction $DIRECTION is invalid."
+  exit 1
+fi
+
+if [[ -n $TMUX && ("$DIRECTION" == "previous" || $(tmux display -p "#{pane_at_$DIRECTION}") -eq '0') ]]; then
+  tmux select-pane -$TMUX_DIRECTION
+elif [[ ! -z "$HS_DIRECTION" ]]; then
+  hs -c "hs.window.focusedWindow():focusWindow$HS_DIRECTION(nil, true, true);"
+fi

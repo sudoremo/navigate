@@ -12,7 +12,7 @@ download the `navigate` script and save it somewhere in your `$PATH`.
 ```bash
 mkdir -p ~/bin
 cd ~/bin
-wget https://raw.githubusercontent.com/remofritzsche/navigate/master/navigate
+wget https://raw.githubusercontent.com/sudoremo/navigate/master/navigate
 chmod +x navigate
 ```
 
